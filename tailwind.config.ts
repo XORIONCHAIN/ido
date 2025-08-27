@@ -20,6 +20,8 @@ export default {
 		extend: {
 			fontFamily: {
 				geist: ['geist', 'sans-serif'],
+				clash: ['Clash Grotesk', 'sans-serif'],
+				inter: ['Inter', 'sans-serif']
 			},
 			colors: {
 				border: 'hsl(var(--border))',

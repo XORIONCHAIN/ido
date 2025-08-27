@@ -185,7 +185,7 @@ interface PolkadotStore {
 }
 
 // WEBSOCKET ENDPOINTS
-const ENDPOINTS = [import.meta.env.VITE_XORION_WS || "ws://3.219.48.230:9944"];
+export const ENDPOINTS = [import.meta.env.VITE_XORION_WS || "ws://3.219.48.230:9944"];
 
 const DEFAULT_METRICS: NetworkMetrics = {
   validatorsOnline: 0,

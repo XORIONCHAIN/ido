@@ -31,3 +31,42 @@ export function formatTxor(balanceRaw: string | number | BN, decimals = 18, maxF
   const display = num / divisor;
   return display.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: maxFractionDigits });
 }
+
+
+export const switchEthereumNetwork = async () => {
+  try {
+    if (!window.ethereum) throw new Error("MetaMask not found");
+
+    // Try switching to Ethereum Mainnet
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x1" }], // Ethereum Mainnet
+    });
+  } catch (error: any) {
+    // If Ethereum Mainnet isn't added, request to add it
+    if (error.code === 4902) {
+      try {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              chainId: "0x1",
+              chainName: "Ethereum Mainnet",
+              rpcUrls: ["https://mainnet.infura.io/v3/"], // You can replace with your RPC
+              blockExplorerUrls: ["https://etherscan.io"],
+              nativeCurrency: {
+                name: "Ether",
+                symbol: "ETH",
+                decimals: 18,
+              },
+            },
+          ],
+        });
+      } catch (addError) {
+        console.error("Error adding Ethereum Mainnet:", addError);
+      }
+    } else {
+      console.error("Error switching network:", error);
+    }
+  }
+};

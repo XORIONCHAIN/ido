@@ -53,6 +53,33 @@ const BridgeRelayerMonitor = () => {
                 setRelayers(allRelayers);
 
 
+// //                 const allRelayers = await query.ethereumBridge.relayers?.entries();
+
+// // if (allRelayers && allRelayers.length > 0) {
+// //   const relayerList = allRelayers.map(([storageKey, relayerInfo]) => {
+// //     const accountId = storageKey.args[0].toHuman(); // relayer address
+// //     const info = relayerInfo.toHuman?.() ?? relayerInfo.toString(); // details
+// //     return { accountId, info };
+// //   });
+// //   setRelayers(relayerList);
+// // } else {
+// //   setRelayers([]);
+// // }
+
+// // const relayers = await query.ethereumBridge.relayers();
+// // console.log("relayers raw:", relayers);
+// // console.log("relayers.toHuman?:", relayers.toHuman?.());
+
+// const relayersData = await query.ethereumBridge.relayers?.();
+
+// if (relayersData) {
+//   const relayerList = relayersData.toHuman?.() ?? relayersData.map((r) => r.toString());
+//   setRelayers(relayerList);
+// } else {
+//   setRelayers([]);
+// }
+
+
                 // Fetch paused status (optional)
                 const isPausedValue = await query.ethereumBridge.paused?.();
                 setIsPaused(isPausedValue ? isPausedValue.toPrimitive() : null);
