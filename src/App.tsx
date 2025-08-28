@@ -37,12 +37,12 @@ const App = () => (
             <Suspense fallback={<Load />}>
             <div className="text-white">
             <Routes>
-            <Route path="/" element={<LandingPage />} />
+            {/* <Route path="/" element={<LandingPage />} />
             <Route path="/explorer" element={<Index />} />
             <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/tasks/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/tasks/leaderboard" element={<LeaderboardPage />} /> */}
             <Route path="*" element={<NotFound />} />
-            <Route path ="/ido" element={<IdoPage />} />
+            <Route path ="/" element={<IdoPage />} />
             </Routes>
             <BackToTop />
 

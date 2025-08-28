@@ -22,29 +22,33 @@ const IdoPage = (props: Props) => {
 
 
   return (
-    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px]">
+    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px] overflow-x-hiden md:overflow-auto">
       
-      <div className="relative w-full h-[982px]">
+      <div className="relative w-full h-[982px] ">
     
-        <img src='/logo.svg'
-        alt='Logo'
-        className='w-[84px] h-[52px] top-[58px] left-[20px] md:left-[80px] rotate-0 opacity-100
-        absolute z-10 object-cover'
-        />
-        {/* <button className='w-[176px] h-[54px] top-[58px] right-[80px] absolute
-            rotate-0 rounded-[8px] gap-[8px] py-[10px] px-[18px] opacity-100 z-10
-            bg-[#F9F9F9] text-[#121212] font-clash font-normal text-[20px] leading-[100%] tracking-[0] text-center'>
-           Connect Wallet 
+        <div className="flex justify-between absolute items-center w-full mt-10 px-2">
 
-        </button> */}
-        <button
-        onClick={isConnected ? disconnectWallet  : connectWallet}
-        className=" top-[58px] right-[10px] md:right-[80px] absolute
-            rotate-0 rounded-[8px] gap-[8px] py-[10px] px-[18px] opacity-100 z-10
-            bg-[#F9F9F9] text-[#121212] font-clash font-normal md:text-[20px] leading-[100%] tracking-[0] text-center"
-        >
-        {isConnected ? account.slice(0, 6) + "..." + account.slice(-4) : "Connect Wallet"}
-        </button>
+            <img src='/logo.svg'
+            alt='Logo'
+            className='w-[84px] h-[52px] 
+             z-10 object-cover'
+            />
+            {/* <button className='w-[176px] h-[54px] top-[58px] right-[80px] absolute
+                rotate-0 rounded-[8px] gap-[8px] py-[10px] px-[18px] opacity-100 z-10
+                bg-[#F9F9F9] text-[#121212] font-clash font-normal text-[20px] leading-[100%] tracking-[0] text-center'>
+            Connect Wallet 
+
+            </button> */}
+            <button
+            onClick={isConnected ? disconnectWallet  : connectWallet}
+            className=" 
+                rounded-[8px] py-[10px] px-[18px] z-10
+                bg-[#F9F9F9] text-[#121212] font-clash font-normal md:text-[20px] leading-[100%] tracking-[0] text-center"
+            >
+            {isConnected ? account.slice(0, 6) + "..." + account.slice(-4) : "Connect Wallet"}
+            </button>
+
+        </div>
 
 
         <img
@@ -58,7 +62,7 @@ const IdoPage = (props: Props) => {
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
 
-        <div className="absolute w-full h-[118px] top-[200px] md:top-[231px] rotate-0 opacity-100">
+        <div className="absolute w-full h-[118px] top-[150px] sm:top-[200px] md:top-[231px] rotate-0 opacity-100">
             <p className="font-clash font-bold text-[50px] lg:text-[96px] leading-[100%] tracking-[-0.03em] text-center">
                 Xorion Chain IDO
             </p>
@@ -175,35 +179,35 @@ const IdoPage = (props: Props) => {
 
       <div className='relative pt-10'>
         {/* Ellipse  */}
-            <div className="w-[500px] h-[500px] absolute left-[-139px] opacity-100 bg-[#9A4DFF4D] blur-[125px]"
+            <div className="w-1/3 lg:w-[500px] h-[500px] absolute left-[-139px] opacity-100 bg-[#9A4DFF4D] blur-[125px]"
             >
             </div>
-            <div className="w-[340px] h-[340px] absolute left-[792px] top-[518px] opacity-100 bg-[#9A4DFF]/30 blur-[125px]"
+            <div className="w-1/3 lg:w-[340px] h-[340px] absolute left-[792px] top-[518px] opacity-100 bg-[#9A4DFF]/30 blur-[125px]"
             ></div>
-             <div className="w-[500px] h-[500px] absolute right-[-150px] bg-[#9A4DFF]/30 blur-[125px]"></div>
+             <div className="w-1/3 lg:w-[500px] h-[500px] absolute right-[-150px] bg-[#9A4DFF]/30 blur-[125px]"></div>
 
             {/* TABS & CONTENTS */}
            <div className='flex relative justify-center mb-48'>
-                 <div className="w-4/5  opacity-100 relative
-                        rounded-b-[18px]  mx-auto ">
+                 <div className="w-[95%] md:w-4/5  opacity-100 relative
+                        rounded-b-[18px]  mx-auto bg-black">
                     {/* TABS  */}
-                   <div className="w-full opacity-100 grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-[18px] text-black">
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Sale Info' ? 'bg-[#454545]' : 'bg-[#D9D9D9]'}`}
+                   <div className="w-full text-[15px] opacity-100 grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-[18px] text-black">
+                        <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Sale Info' ? 'bg-[#454545]' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Sale Info')}>Sale Info</button>
                         
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='About the Project' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='About the Project' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('About the Project')}>About the Project</button>
                         
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Participate' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 pr-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Participate' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Participate')}>Participate</button>
                         
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Whitelist' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Whitelist' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Whitelist')}>Whitelist</button>
                         
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Security' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Security' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Security')}>Security</button>
                         
-                        <button className={`h-[60px] rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Post IDO' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Post IDO' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Post IDO')}>Post IDO</button>
                         </div>
                     {/* CONTNTS  */}
@@ -236,11 +240,11 @@ const IdoPage = (props: Props) => {
                     className="w-3/4 h-[255px] rounded-[18px] 
                         border-[4px] border-[#949494] bg-[#24031C]"
                     >
-                        <div className="w-[377px] h-full flex flex-col mx-auto items-center justify-center gap-[16px]">
-                            <span className="font-clash font-bold text-[36px] leading-[100%] tracking-[0] text-center">
+                        <div className="lg:w-[377px] h-full flex flex-col mx-auto items-center justify-center gap-[16px]">
+                            <span className="font-clash font-bold text-[30px] md:text-[36px] leading-[100%] tracking-[0] text-center">
                                 Time till TGE
                             </span>
-                            <span className="font-clash font-normal text-[128px] leading-[100%] tracking-[0]">
+                            <span className="font-clash font-normal text-[25px] md:text-[128px] leading-[100%] tracking-[0]">
                                <Countdown targetDate="2025-08-27T15:00:00" />
                             </span>
                         </div>
