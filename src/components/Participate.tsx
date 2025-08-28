@@ -7,6 +7,7 @@ import { ENDPOINTS } from "@/stores/polkadotStore";
 import { ethers } from "ethers";
 import { wl } from "@/lib/utils";
 import SelectCryptoNet from "./SelectCryptoNet";
+import { useTokenPrices,TOKEN_IDS  } from "@/hooks/useTokenPrice";
 
 
 type Props = {
@@ -34,11 +35,13 @@ const Participate = ({ isConnected, account, connectWallet,disconnectWallet,
     const [xorionAddress, setXorionAddress] = useState("");
     const [balance, setBalance] = useState("0");
     const [selectedNetwork, setSelectedNetwork] = useState<'ETH' | 'BSC'>(currentNetwork);
-
+  const availableTokens = Object.keys(TOKEN_IDS);
+  const { prices, loading: pricesLoading, error: priceError } = useTokenPrices(availableTokens);
 
 const launchClaim = useLaunchClaim(xorionAddress || null, ENDPOINTS[0]);
 const { contribution, isReady, claimTokens, error } = launchClaim;
-
+  
+const XOR_PRICE_PER_DOLLAR = 0.05;
 
 // const tokenContract = {
 //   "USDT":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -220,19 +223,53 @@ const handleBuy = async () => {
   //   }
   // };
 
-  const xorEquiv = (amount: string) => {
-  const valueEquiv = Number(amount) * 20;
+ const xorEquiv = (amount: string) => {
+    if (!token || !prices[token] || !amount || Number(amount) <= 0) {
+      return null;
+    }
 
-  // Format both input amount and XOR equivalent with commas
-  const formattedAmount = Number(amount).toLocaleString();
-  const formattedValueEquiv = valueEquiv.toLocaleString();
+    try {
+      const tokenPrice = prices[token].usd;
+      const amountInUSD = Number(amount) * tokenPrice;
+      const xorAmount = amountInUSD * XOR_PRICE_PER_DOLLAR;
 
-  return (
-    <p className="w-full text-right text-white py-2 px-3">
-      {`${formattedAmount} ${token} = ${formattedValueEquiv} XOR`}
-    </p>
-  );
-};
+      const formattedAmount = Number(amount).toLocaleString();
+      const formattedXorAmount = xorAmount.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 6
+      });
+
+      return (
+        <div className="w-full text-right text-white py-2 px-3">
+          <p className="text-sm">
+            {`${formattedAmount} ${token} = ${formattedXorAmount} XOR`}
+          </p>
+          <p className="text-xs text-gray-300">
+            {`Rate: 1 XOR = $${(1 / XOR_PRICE_PER_DOLLAR).toFixed(2)} | ${token} price: $${tokenPrice.toFixed(4)}`}
+          </p>
+          {priceError && (
+            <p className="text-xs text-yellow-400">
+              Using cached prices - {priceError}
+            </p>
+          )}
+        </div>
+      );
+    } catch (error) {
+      console.error('Error calculating XOR equivalent:', error);
+      return null;
+    }
+  };
+
+
+  //   const getEstimatedXOR = (amount: string): number => {
+  //   if (!token || !prices[token] || !amount || Number(amount) <= 0) {
+  //     return 0;
+  //   }
+    
+  //   const tokenPrice = prices[token].usd;
+  //   const amountInUSD = Number(amount) * tokenPrice;
+  //   return amountInUSD * XOR_PRICE_PER_DOLLAR;
+  // };
 
 // useEffect(() => {
 //   const fetchBalance = async () => {
@@ -405,7 +442,6 @@ const handleBuy = async () => {
                     Max
                   </button>
                 </div>}
-                {/* show user balance here */} {/* add a 'max' button here, when user clicks the total user fund is entered as value in the input below*/}
             
    {/* amount to invest           */}
             

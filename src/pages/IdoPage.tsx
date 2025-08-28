@@ -5,7 +5,7 @@ import SaleInfo from "@/components/SaleInfo"
 import Security from "@/components/Security"
 import Whitelist from "@/components/Whitelist"
 import { useMetaMask } from "@/hooks/useMetaMask"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { ENDPOINTS } from "@/stores/polkadotStore";
 import Countdown from "@/components/Countdown"
 
@@ -21,13 +21,20 @@ const IdoPage = (props: Props) => {
     const {account, isConnected, error,disconnectWallet, connectWallet, sendToken, currentNetwork,
   switchNetwork } = useMetaMask();
 
+  const contentsRef = useRef<HTMLDivElement | null>(null)
+  const scrollToContents = () => {
+    contentsRef.current?.scrollIntoView({
+        behavior: "smooth"
+    })
+  }
+
 
   return (
-    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px] overflow-x-clip md:overflow-auto ">
+    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px] overflow-x-clip ">
       
       <div className="relative w-full h-[982px] overflow-x-clip">
     
-        <div className="flex justify-between absolute items-center w-full mt-10 px-2">
+        <div className="flex justify-between absolute items-center w-full mt-10 px-2 xl:px-52">
 
             <img src='/logo.svg'
             alt='Logo'
@@ -41,7 +48,7 @@ const IdoPage = (props: Props) => {
 
             </button> */}
             <button
-            onClick={isConnected ? disconnectWallet  : connectWallet}
+            onClick={scrollToContents}
             className=" 
                 rounded-[8px] py-[10px] px-[18px] z-10
                 bg-[#F9F9F9] text-[#121212] font-clash font-normal md:text-[20px] leading-[100%] tracking-[0] text-center"
@@ -82,7 +89,7 @@ const IdoPage = (props: Props) => {
             Connect Wallet
             </button> */}
             <button
-            onClick={isConnected ? disconnectWallet : connectWallet}
+             onClick={scrollToContents}
            className="w-[176px] h-[54px] opacity-100 
                 rounded-[24px] gap-[8px] px-[18px] py-[10px] bg-[#F9F9F9]
                 font-clash font-normal text-[20px] leading-[100%] tracking-[0] 
@@ -180,7 +187,7 @@ const IdoPage = (props: Props) => {
 
       {/* SECOND HALF  */}
 
-      <div className='relative pt-10'>
+      <div className='relative pt-10 lg:mt-20 w-4/5 xl:w-3/5 mx-auto'>
         {/* Ellipse  */}
             <div className="w-1/3 lg:w-[500px] h-[500px] absolute left-[-139px] opacity-100 bg-[#9A4DFF4D] blur-[125px]"
             >
@@ -191,7 +198,7 @@ const IdoPage = (props: Props) => {
 
             {/* TABS & CONTENTS */}
            <div className='flex relative justify-center mb-48'>
-                 <div className="w-[95%] md:w-4/5  opacity-100 relative
+                 <div className="w-full md:w-4/5 xl:w-full opacity-100 relative
                         rounded-b-[18px]  mx-auto">
                     {/* TABS  */}
                    <div className="w-full text-[15px] opacity-100 grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-[18px] text-black">
@@ -214,7 +221,9 @@ const IdoPage = (props: Props) => {
                             onClick={()=>setSelectedTab('Post IDO')}>Post IDO</button>
                         </div>
                     {/* CONTNTS  */}
-                    <div className='pt-7 w-full gap-10  overflow-hidden bg-[#454545] rounded-b-lg'>
+                    <div 
+                    ref={contentsRef}
+                    className='pt-7 w-full gap-10  overflow-hidden bg-[#454545] rounded-b-lg'>
                        {selectedTab === 'Sale Info' && <SaleInfo />}
                        {selectedTab === 'About the Project' && <Intro />}
                        {selectedTab === 'Participate' && <Participate 

@@ -16,7 +16,7 @@ const SelectCryptoNet = ({handleNetworkChange, toggleDropdownNet}: Props) => {
 
         }}
         className="flex items-center gap-2 py-3 px-4 hover:bg-gray-200 cursor-pointer">
-            <img src="/usdc.svg" alt="USDC" className="w-5 h-5" />
+            <img src="/ethsvg.svg" alt="USDC" className="w-5 h-5" />
             <span className="font-clash font-bold text-[15px]">ETH</span>
         </div>
 
@@ -26,7 +26,7 @@ const SelectCryptoNet = ({handleNetworkChange, toggleDropdownNet}: Props) => {
           toggleDropdownNet()
         }}
         className="flex items-center gap-2 py-3 px-4 hover:bg-gray-200 cursor-pointer">
-            <img src="/usdt.svg" alt="USDT" className="w-5 h-5" />
+            <img src="/bsc.png" alt="USDT" className="w-5 h-5" />
             <span className="font-clash font-bold text-[15px]">BSC</span>
         </div>
 
