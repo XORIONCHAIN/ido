@@ -86,7 +86,7 @@ const toggleDropdown = () => setOpen(!open);
   const formattedValueEquiv = valueEquiv.toLocaleString();
 
   return (
-    <p className="w-[1274px]  text-right text-white py-2 px-3 rounded-[8px]">
+    <p className="w-full text-right text-white py-2 px-3">
       {`${formattedAmount} ${token} = ${formattedValueEquiv} XOR`}
     </p>
   );

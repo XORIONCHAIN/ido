@@ -44,7 +44,7 @@ const SaleInfo = (props: Props) => {
         </div>
         <div className="flex justify-between items-center">
             <span>Vesting</span>
-            <span className="font-clash font-bold text-[14px] lg:text-[20px] leading-[100%] tracking-[0] text-center">50% Unlocked, 50% VESTING 6 MONTHS</span>
+            <span className="font-clash font-bold text-[14px] lg:text-[20px] leading-[100%] tracking-[0] md:text-center text-wrap text-right md:text-nowrap ">50% Unlocked, 50% VESTING 6 MONTHS</span>
         </div>
         <div className="flex justify-between items-center">
             <span>TGE</span>

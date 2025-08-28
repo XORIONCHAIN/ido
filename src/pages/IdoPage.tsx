@@ -22,9 +22,9 @@ const IdoPage = (props: Props) => {
 
 
   return (
-    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px] overflow-x-hiden md:overflow-auto">
+    <div className="flex flex-col bg-[#121212] w-full min-h-[2147px] overflow-x-clip md:overflow-auto ">
       
-      <div className="relative w-full h-[982px] ">
+      <div className="relative w-full h-[982px] overflow-x-clip">
     
         <div className="flex justify-between absolute items-center w-full mt-10 px-2">
 
@@ -62,12 +62,12 @@ const IdoPage = (props: Props) => {
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
 
-        <div className="absolute w-full h-[118px] top-[150px] sm:top-[200px] md:top-[231px] rotate-0 opacity-100">
+        <div className="absolute w-full h-[118px] px-2 top-[150px] sm:top-[200px] md:top-[231px] rotate-0 opacity-100">
             <p className="font-clash font-bold text-[50px] lg:text-[96px] leading-[100%] tracking-[-0.03em] text-center">
                 Xorion Chain IDO
             </p>
         </div>
-        <div className="absolute w-full top-[280px] md:top-[357px] opacity-100">
+        <div className="absolute w-full px-2 top-[280px] md:top-[357px] opacity-100">
             <p className="font-inter font-normal text-[32px] text-[#F9F9F9] leading-[100%] tracking-[0%] text-center"> 
                 The next-generation scalable chain on Polkadot Substrate
             </p>
@@ -211,7 +211,7 @@ const IdoPage = (props: Props) => {
                             onClick={()=>setSelectedTab('Post IDO')}>Post IDO</button>
                         </div>
                     {/* CONTNTS  */}
-                    <div className='pt-7 w-full gap-10  h-[496px] overflow-hidden bg-[#454545] rounded-b-lg'>
+                    <div className='pt-7 w-full gap-10  h-[550px] overflow-hidden bg-[#454545] rounded-b-lg'>
                        {selectedTab === 'Sale Info' && <SaleInfo />}
                        {selectedTab === 'About the Project' && <Intro />}
                        {selectedTab === 'Participate' && <Participate 
