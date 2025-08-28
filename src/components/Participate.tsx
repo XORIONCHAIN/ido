@@ -1,100 +1,226 @@
 import { useEffect, useState } from "react";
-import SelectCrypto from "./SelectCrypto";
+import SelectCryptoComp from "./SelectCryptoComp";
 import { FaCaretDown } from 'react-icons/fa'
 import { toast } from "sonner";
 import { useLaunchClaim } from "@/hooks/useLaunchClaim";
 import { ENDPOINTS } from "@/stores/polkadotStore";
 import { ethers } from "ethers";
 import { wl } from "@/lib/utils";
+import SelectCryptoNet from "./SelectCryptoNet";
 
 
 type Props = {
   isConnected: boolean;
   account: string | null;
-  connectWallet: () => void;
+  connectWallet: (network: 'ETH' | 'BSC') => void;
   disconnectWallet: ()=>void;
   sendToken: ( tokenAddress:string, amount: string, recipient: string) => Promise<string>;
   idoContract: string;
+  currentNetwork:  'ETH' | 'BSC'
+  switchNetwork: (network: 'ETH' | 'BSC') => void;
+  tokenBalances;
+  refreshBalances;
 };
 
-const Participate = ({ isConnected, account, connectWallet,disconnectWallet, sendToken, idoContract }: Props) => {
+const Participate = ({ isConnected, account, connectWallet,disconnectWallet, 
+  sendToken,  currentNetwork,
+  switchNetwork,tokenBalances,refreshBalances}: Props) => {
 
     const [open, setOpen] = useState(false);
+    const [openNet, setOpenNet] = useState(false);
     const [amount, setAmount] = useState("");
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState('')
     const [xorionAddress, setXorionAddress] = useState("");
     const [balance, setBalance] = useState("0");
+    const [selectedNetwork, setSelectedNetwork] = useState<'ETH' | 'BSC'>(currentNetwork);
+
 
 const launchClaim = useLaunchClaim(xorionAddress || null, ENDPOINTS[0]);
 const { contribution, isReady, claimTokens, error } = launchClaim;
-//     if (!xorionAddress) {
-//   return <p>Please enter a wallet address</p>;
-// }
 
-const tokenContract = {
-  "USDT":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-}; 
 
-const ERC20_ABI = [
-  "function decimals() view returns (uint8)",
-  "function balanceOf(address owner) view returns (uint256)"
-];
+// const tokenContract = {
+//   "USDT":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+//     "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+// }; 
+
+// const ERC20_ABI = [
+//   "function decimals() view returns (uint8)",
+//   "function balanceOf(address owner) view returns (uint256)"
+// ];
 
 
 const toggleDropdown = () => setOpen(!open);
+const toggleDropdownNet = () => setOpenNet(!openNet);
 
-  const handleBuy = async () => {
-      // console.log('buying called')
-      let valueStr
-    if (!isConnected) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
-    if (!amount || Number(amount) <= 0) {
-      toast.error("Enter a valid amount");
-      return;
-    }
-    if (!xorionAddress) {
-      toast.error("Enter your Xorion address");
-      return;
-    }
-    const normalized = account.toLowerCase();
-    const foundTier = Object.entries(wl).find(
-          ([addr]) => addr.toLowerCase() === normalized
-        );
-      if(foundTier){
-        let value = Number(amount)
-        value = value + (value * 0.01)
-        valueStr = String(value)
-      }else{
-        valueStr = amount
-      }
-    try {
-      setLoading(true);
+  // const handleBuy = async () => {
+  //     // console.log('buying called')
+  //     let valueStr
+  //   if (!isConnected) {
+  //     toast.error("Please connect your wallet first");
+  //     return;
+  //   }
+  //   if (!amount || Number(amount) <= 0) {
+  //     toast.error("Enter a valid amount");
+  //     return;
+  //   }
+  //   if (!xorionAddress) {
+  //     toast.error("Enter your Xorion address");
+  //     return;
+  //   }
+  //   const normalized = account.toLowerCase();
+  //   const foundTier = Object.entries(wl).find(
+  //         ([addr]) => addr.toLowerCase() === normalized
+  //       );
+  //     if(foundTier){
+  //       let value = Number(amount)
+  //       value = value + (value * 0.01)
+  //       valueStr = String(value)
+  //     }else{
+  //       valueStr = amount
+  //     }
+  //   try {
+  //     setLoading(true);
       
-      const hash = await sendToken(tokenContract[token], valueStr, xorionAddress);
-      console.log('xor: ', xorionAddress)
+  //     const hash = await sendToken(tokenContract[token], valueStr, xorionAddress);
+  //     console.log('xor: ', xorionAddress)
+  //     toast.success("Transaction sent!", {
+  //       description: `Hash: ${hash}`,
+  //       action: {
+  //         label: "View",
+  //         onClick: () =>
+  //           window.open(`https://etherscan.io/tx/${hash}`, "_blank"),
+  //       },
+  //     });
+  //   } catch (err: any) {
+  //     toast.error(err.message || "Transaction failed");
+  //   } finally {
+  //     setLoading(false);
+  //     setAmount('')
+  //     setToken('')
+  //     setXorionAddress('')
+  //   }
+  //     };
+
+
+  // Participate.tsx - Improve error handling
+const handleBuy = async () => {
+  if (!isConnected) {
+    toast.error("Please connect your wallet first");
+    return;
+  }
+  if (!amount || Number(amount) <= 0) {
+    toast.error("Enter a valid amount");
+    return;
+  }
+  if (!xorionAddress) {
+    toast.error("Enter your Xorion address");
+    return;
+  }
+
+  const normalized = account.toLowerCase();
+  const foundTier = Object.entries(wl).find(
+    ([addr]) => addr.toLowerCase() === normalized
+  );
+  
+  let finalAmount = amount;
+  if (foundTier) {
+    const value = Number(amount) + (Number(amount) * 0.01);
+    finalAmount = String(value);
+  }
+
+  try {
+    setLoading(true);
+    const hash = await sendToken(token, finalAmount, xorionAddress);
+    
+    // Only show success if we have a valid hash
+    if (hash && hash !== 'undefined') {
+      const explorerUrl = selectedNetwork === 'ETH' 
+        ? `https://etherscan.io/tx/${hash}`
+        : `https://bscscan.com/tx/${hash}`;
+      
       toast.success("Transaction sent!", {
         description: `Hash: ${hash}`,
         action: {
           label: "View",
-          onClick: () =>
-            window.open(`https://etherscan.io/tx/${hash}`, "_blank"),
+          onClick: () => window.open(explorerUrl, "_blank"),
         },
       });
-    } catch (err: any) {
-      toast.error(err.message || "Transaction failed");
-    } finally {
-      setLoading(false);
-      setAmount('')
-      setToken('')
-      setXorionAddress('')
+    } else {
+      throw new Error("Transaction failed - no transaction hash received");
     }
-      };
+  } catch (err: any) {
+    // Don't show error for user cancellations
+    if (err.message.includes("rejected") || err.message.includes("cancelled")) {
+      toast.info("Transaction cancelled");
+    } else {
+      toast.error(err.message || "Transaction failed");
+    }
+    console.error("Transaction error:", err);
+  } finally {
+    setLoading(false);
+    // Only reset form on successful transaction
+    if (!error) {
+      setAmount('');
+      setToken('');
+      setXorionAddress('');
+    }
+  }
+};
 
-     const xorEquiv = (amount: string) => {
+  // 2
+  //  const handleBuy = async () => {
+  //   if (!isConnected) {
+  //     toast.error("Please connect your wallet first");
+  //     return;
+  //   }
+  //   if (!amount || Number(amount) <= 0) {
+  //     toast.error("Enter a valid amount");
+  //     return;
+  //   }
+  //   if (!xorionAddress) {
+  //     toast.error("Enter your Xorion address");
+  //     return;
+  //   }
+
+  //   const normalized = account.toLowerCase();
+  //   const foundTier = Object.entries(wl).find(
+  //     ([addr]) => addr.toLowerCase() === normalized
+  //   );
+    
+  //   let finalAmount = amount;
+  //   if (foundTier) {
+  //     const value = Number(amount) + (Number(amount) * 0.01);
+  //     finalAmount = String(value);
+  //   }
+
+  //   try {
+  //     setLoading(true);
+  //     const hash = await sendToken(token, finalAmount, xorionAddress);
+      
+  //     const explorerUrl = selectedNetwork === 'ETH' 
+  //       ? `https://etherscan.io/tx/${hash}`
+  //       : `https://bscscan.com/tx/${hash}`;
+      
+  //     toast.success("Transaction sent!", {
+  //       description: `Hash: ${hash}`,
+  //       action: {
+  //         label: "View",
+  //         onClick: () => window.open(explorerUrl, "_blank"),
+  //       },
+  //     });
+  //   } catch (err: any) {
+  //     toast.error(err.message || "Transaction failed");
+  //   } finally {
+  //     setLoading(false);
+  //     setAmount('');
+  //     setToken('');
+  //     setXorionAddress('');
+  //   }
+  // };
+
+  const xorEquiv = (amount: string) => {
   const valueEquiv = Number(amount) * 20;
 
   // Format both input amount and XOR equivalent with commas
@@ -108,31 +234,99 @@ const toggleDropdown = () => setOpen(!open);
   );
 };
 
-useEffect(() => {
-  const fetchBalance = async () => {
-    if (!window.ethereum || !account || !token) return;
+// useEffect(() => {
+//   const fetchBalance = async () => {
+//     if (!window.ethereum || !account || !token) return;
 
+//     try {
+//       const provider = new ethers.BrowserProvider(window.ethereum);
+//       const signer = await provider.getSigner();
+
+//       const tokenAddress = tokenContract[token];
+//       if (!tokenAddress) return;
+
+//       const tokenInstance = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+//       const decimals = await tokenInstance.decimals();
+//       const rawBalance = await tokenInstance.balanceOf(account);
+//       const formattedBalance = ethers.formatUnits(rawBalance, decimals);
+
+//       setBalance(formattedBalance);
+//     } catch (err) {
+//       console.error("Failed to fetch balance:", err);
+//       setBalance("0");
+//     }
+//   };
+
+//   fetchBalance();
+// }, [account, token]);
+
+ useEffect(() => {
+    const fetchBalance = async () => {
+      if (!window.ethereum || !account || !token) return;
+
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+
+        // Handle native BNB balance
+        if (token === 'BNB') {
+          const balance = await provider.getBalance(account);
+          const formattedBalance = ethers.formatEther(balance);
+          setBalance(formattedBalance);
+          return;
+        }
+
+        // Handle ERC20 tokens
+        const tokenAddress = TOKEN_CONTRACTS[selectedNetwork][token];
+        if (!tokenAddress) return;
+
+        const tokenInstance = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+        const decimals = await tokenInstance.decimals();
+        const rawBalance = await tokenInstance.balanceOf(account);
+        const formattedBalance = ethers.formatUnits(rawBalance, decimals);
+
+        setBalance(formattedBalance);
+      } catch (err) {
+        console.error("Failed to fetch balance:", err);
+        setBalance("0");
+      }
+    };
+
+    fetchBalance();
+  }, [account, token, selectedNetwork]);
+
+  const handleNetworkChange = async (network: 'ETH' | 'BSC') => {
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
+      if(isConnected){
 
-      const tokenAddress = tokenContract[token];
-      if (!tokenAddress) return;
-
-      const tokenInstance = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-      const decimals = await tokenInstance.decimals();
-      const rawBalance = await tokenInstance.balanceOf(account);
-      const formattedBalance = ethers.formatUnits(rawBalance, decimals);
-
-      setBalance(formattedBalance);
-    } catch (err) {
-      console.error("Failed to fetch balance:", err);
-      setBalance("0");
+        await switchNetwork(network);
+      }
+      setSelectedNetwork(network);
+      setToken(''); 
+      setBalance('0');
+    } catch (error: any) {
+      toast.error(`Failed to switch network: ${error.message}`);
+      setSelectedNetwork(currentNetwork);
     }
   };
 
-  fetchBalance();
-}, [account, token]);
+  const handleConnectWallet = async () => {
+    try {
+      await connectWallet(selectedNetwork);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to connect wallet");
+    }
+  };
+
+  const handleMaxClick = () => {
+    if (token === 'BNB') {
+      const estimatedGas = 0.01;
+      const maxAmount = Math.max(0, Number(balance) - estimatedGas);
+      setAmount(maxAmount > 25000 ? "25000" : maxAmount.toFixed(8));
+    } else {
+      setAmount(balance && Number(balance) > 25000 ? "25000" : balance);
+    }
+  };
 
 
   return (
@@ -140,19 +334,44 @@ useEffect(() => {
 
         <div className="flex flex-col gap-4 items-center">
 
-            <div className="w-full">
-            <button
-            onClick={isConnected ? disconnectWallet : connectWallet}
-            className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center"
-          >
-            {isConnected ? account?.slice(0, 6) + "..." + account?.slice(-4) : "Connect Wallet"}
-            <div className="flex gap-4">
-              <img src="/metamask.svg" className="w-6 h-6" />
-              <img src="/walletconnect.svg" className="w-6 h-6" />
-            </div>
-          </button>
+{/* network selector  */}
+            <div className="w-full relative">
+              <button
+                onClick={toggleDropdownNet}
+                className={`w-full py-4 px-3 rounded-[8px] ${open ? 'rounded-b-none' : null} bg-[#D9D9D9] flex justify-between items-center text-black font-clash text-[18px]`}
+              >
+                {selectedNetwork ? selectedNetwork : 'Select Crypto'}
+                <FaCaretDown
+                  className={`transition-transform duration-200 ${
+                    openNet ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            
+                {openNet && (
+                  <SelectCryptoNet 
+
+                          handleNetworkChange={handleNetworkChange}
+                          toggleDropdownNet={toggleDropdownNet}/>
+                )}
             </div>
 
+{/* connect wallet  */}
+
+            <div className="w-full">
+              <button
+              onClick={isConnected ? disconnectWallet : handleConnectWallet}
+              className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center"
+            >
+                {isConnected ? account?.slice(0, 6) + "..." + account?.slice(-4) : "Connect Wallet"}
+                <div className="flex gap-4">
+                  <img src="/metamask.svg" className="w-6 h-6" />
+                  <img src="/walletconnect.svg" className="w-6 h-6" />
+                </div>
+              </button>
+            </div>
+
+{/* select cdrypto  */}
             <div className="w-full relative">
               <button
                 onClick={toggleDropdown}
@@ -167,22 +386,29 @@ useEffect(() => {
               </button>
             
                 {open && (
-                  <SelectCrypto 
+                  <SelectCryptoComp
                           setToken={setToken}
-                          toggleDropdown={toggleDropdown}/>
-                )}
+                          toggleDropdown={toggleDropdown}
+                          selectedNetwork={selectedNetwork}
+                />)}
             </div>
 
                 {token && <div className="w-full flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
                   <span>Balance: {Number(balance).toLocaleString()} {token}</span>
                   <button
-                    onClick={() => setAmount(balance && Number(balance) > 25000 ? "25000" : balance)}
+                    onClick={() =>{
+                       setAmount(balance && Number(balance) > 25000 ? "25000" : balance)
+                         refreshBalances();
+                    }}
                     className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded text-gray-400 text-xs"
                   >
                     Max
                   </button>
                 </div>}
                 {/* show user balance here */} {/* add a 'max' button here, when user clicks the total user fund is entered as value in the input below*/}
+            
+   {/* amount to invest           */}
+            
             <input className="w-full rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
                  focus:ring-2 focus:ring-black focus:outline-none placeholder:text-gray-600"
                  placeholder="Enter amount to invest"
@@ -200,6 +426,9 @@ useEffect(() => {
                   }}
                   />
             {amount && xorEquiv(amount)}
+           
+           
+    {/* wallet address         */}
             <input
               className="w-full rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
                 focus:ring-2 focus:ring-black focus:outline-none placeholder:text-gray-600"
@@ -219,6 +448,7 @@ useEffect(() => {
 
         </div>
 
+{/* button buy */}
         <div className="flex justify-end w-full mx-auto">
             <button className="bg-[#583FB7] hover:bg-[#3f23af] w-full lg:w-[112px] py-4 text-center text-white
              font-clash font-normal text-[18px] rounded-[8px]"

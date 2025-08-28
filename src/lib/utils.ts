@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import type BN from 'bn.js';
+import { NETWORKS } from "./networks";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -33,43 +34,71 @@ export function formatTxor(balanceRaw: string | number | BN, decimals = 18, maxF
 }
 
 
-export const switchEthereumNetwork = async () => {
-  try {
-    if (!window.ethereum) throw new Error("MetaMask not found");
+// export const switchEthereumNetwork = async () => {
+//   try {
+//     if (!window.ethereum) throw new Error("MetaMask not found");
 
-    // Try switching to Ethereum Mainnet
+//     // Try switching to Ethereum Mainnet
+//     await window.ethereum.request({
+//       method: "wallet_switchEthereumChain",
+//       params: [{ chainId: "0x1" }], // Ethereum Mainnet
+//     });
+//   } catch (error: any) {
+//     // If Ethereum Mainnet isn't added, request to add it
+//     if (error.code === 4902) {
+//       try {
+//         await window.ethereum.request({
+//           method: "wallet_addEthereumChain",
+//           params: [
+//             {
+//               chainId: "0x1",
+//               chainName: "Ethereum Mainnet",
+//               rpcUrls: ["https://mainnet.infura.io/v3/"], // You can replace with your RPC
+//               blockExplorerUrls: ["https://etherscan.io"],
+//               nativeCurrency: {
+//                 name: "Ether",
+//                 symbol: "ETH",
+//                 decimals: 18,
+//               },
+//             },
+//           ],
+//         });
+//       } catch (addError) {
+//         console.error("Error adding Ethereum Mainnet:", addError);
+//       }
+//     } else {
+//       console.error("Error switching network:", error);
+//     }
+//   }
+// };
+
+
+// utils.ts - Add BSC support to switchEthereumNetwork
+
+
+// utils.ts - Add BSC support to switchEthereumNetwork
+
+
+export const switchEthereumNetwork = async (network: 'ETH' | 'BSC' = 'ETH') => {
+  const networkConfig = NETWORKS[network];
+  
+  try {
     await window.ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x1" }], // Ethereum Mainnet
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: networkConfig.chainId }],
     });
-  } catch (error: any) {
-    // If Ethereum Mainnet isn't added, request to add it
-    if (error.code === 4902) {
-      try {
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              chainId: "0x1",
-              chainName: "Ethereum Mainnet",
-              rpcUrls: ["https://mainnet.infura.io/v3/"], // You can replace with your RPC
-              blockExplorerUrls: ["https://etherscan.io"],
-              nativeCurrency: {
-                name: "Ether",
-                symbol: "ETH",
-                decimals: 18,
-              },
-            },
-          ],
-        });
-      } catch (addError) {
-        console.error("Error adding Ethereum Mainnet:", addError);
-      }
+  } catch (switchError: any) {
+    if (switchError.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [networkConfig],
+      });
     } else {
-      console.error("Error switching network:", error);
+      throw switchError;
     }
   }
 };
+
 
 export const wl = {
   "0x8a89a3c31A5Be9d65e9E1902394264fd29313cE0":"Tier 1",

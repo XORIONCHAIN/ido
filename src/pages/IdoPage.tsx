@@ -18,7 +18,8 @@ const IdoPage = (props: Props) => {
 
     console.log('end: ', ENDPOINTS)
     const [selectedTab, setSelectedTab] = useState('Participate');
-    const {account, isConnected, error,disconnectWallet, connectWallet, sendToken} = useMetaMask();
+    const {account, isConnected, error,disconnectWallet, connectWallet, sendToken, currentNetwork,
+  switchNetwork } = useMetaMask();
 
 
   return (
@@ -221,7 +222,9 @@ const IdoPage = (props: Props) => {
                                                             account={account}
                                                             connectWallet={connectWallet}
                                                             sendToken={sendToken}
-                                                            idoContract={IDO_CONTRACT} />}
+                                                            idoContract={IDO_CONTRACT}
+                                                            currentNetwork = {currentNetwork}
+                                                            switchNetwork ={switchNetwork} />}
                        {selectedTab === 'Whitelist' && <Whitelist 
                                                         isConnected={isConnected}
                                                             account={account}
