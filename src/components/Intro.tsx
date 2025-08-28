@@ -175,14 +175,7 @@ const Intro = (props: Props) => {
                         </p>
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row gap-5 ">
-                    <img src="\anthony.png" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
-                    <div >
-                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Anthony Shine - Community Manager</h2>
-                        <p>Manages DAO driven governance with quadratic Voting. Empwers XOR holders for decentralized protocol upgrades.
-                        </p>
-                    </div>
-                </div>
+                
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\elizabeth.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >

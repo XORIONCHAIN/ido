@@ -267,9 +267,9 @@ const IdoPage = (props: Props) => {
             
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Social</h3>
-                <ol>Telegram Community</ol>
-                <ol>Discord</ol>
-                <ol>Twitter</ol>
+                <ol><a href="https://t.me/xorion_chain">Telegram Community</a></ol>
+                <ol><a href="https://discord.gg/c4VVaRVdKq">Discord</a></ol>
+                <ol><a href="https://x.com/XorionChain">Twitter</a></ol>
             </div>
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Token</h3>
@@ -282,10 +282,10 @@ const IdoPage = (props: Props) => {
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Help</h3>
                 <ol>Status</ol>
-                <ol>Terms of service</ol>
-                <ol>Privacy</ol>
+                <ol><a href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/terms-and-conditions">Terms of service</a></ol>
+                <ol><a href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/privacy-policy">Privacy</a></ol>
                 <ol>FAQ</ol>
-                <ol>Whitepaper</ol>
+                <ol><a href="http://xorion-chain.gitbook.io/xorion-chain-docs/the-xorion/whitepaper">Whitepaper</a></ol>
             </div>
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Exchanges</h3>
