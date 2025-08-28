@@ -17,7 +17,7 @@ const IDO_CONTRACT = "0xd3f35ee0274369Dc6d99B0eD292f8f74bbAA8827";
 const IdoPage = (props: Props) => {
 
     console.log('end: ', ENDPOINTS)
-    const [selectedTab, setSelectedTab] = useState('About the Project');
+    const [selectedTab, setSelectedTab] = useState('Participate');
     const {account, isConnected, error,disconnectWallet, connectWallet, sendToken} = useMetaMask();
 
 
