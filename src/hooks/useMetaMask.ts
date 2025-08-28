@@ -125,38 +125,67 @@ export function useMetaMask() {
   }, []);
 
   // 🪙 send token (USDT / USDC depending on selection)
-  const sendToken = useCallback(
-    async (tokenAddress: string, amount: string, xorionRecipient: string) => {
+// In useMetamask.ts - Replace the sendToken function:
+const sendToken = useCallback(
+  async (tokenAddress: string, amount: string, xorionRecipient: string) => {
+    try {
+      if (!window.ethereum || !tokenAddress) {
+        throw new Error("Wallet or token contract not configured");
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      const token = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+      const decimals: number = await token.decimals();
+      const parsedAmount = ethers.parseUnits(amount, decimals);
+
+      // FIX: First reset approval to 0 (especially important for USDT)
       try {
-        if (!window.ethereum || !tokenAddress) {
-          throw new Error("Wallet or token contract not configured");
-        }
+        const resetTx = await token.approve(IDO_CONTRACT_ADDRESS, 0, {
+          gasLimit: 50000 // Specific gas limit for reset
+        });
+        await resetTx.wait();
+        console.log("Reset approval successful");
+      } catch (resetError) {
+        console.log("Reset approval may not be needed or failed:", resetError);
+        // Continue anyway - some tokens don't need this
+      }
 
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
+      // FIX: Use higher gas limit for approval
+      const approveTx = await token.approve(IDO_CONTRACT_ADDRESS, parsedAmount, {
+        gasLimit: 100000 // Increased gas limit
+      });
+      await approveTx.wait();
 
-        const token = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-        const decimals: number = await token.decimals();
-        const parsedAmount = ethers.parseUnits(amount, decimals);
+      const ido = new ethers.Contract(IDO_CONTRACT_ADDRESS, IDO_ABI, signer);
 
-        const approveTx = await token.approve(IDO_CONTRACT_ADDRESS, parsedAmount);
-        await approveTx.wait();
+      const recipientU8a = decodeAddress(xorionRecipient);
+      const recipientHex = u8aToHex(recipientU8a);
 
-        const ido = new ethers.Contract(IDO_CONTRACT_ADDRESS, IDO_ABI, signer);
+      const depositTx = await ido.deposit(parsedAmount, recipientHex, {
+        gasLimit: 200000 // Increased gas for deposit
+      });
+      await depositTx.wait();
 
-        const recipientU8a = decodeAddress(xorionRecipient);
-        const recipientHex = u8aToHex(recipientU8a);
-
-        const depositTx = await ido.deposit(parsedAmount, recipientHex);
-        await depositTx.wait();
-
-        return depositTx.hash;
-      } catch (err: any) {
+      return depositTx.hash;
+    } catch (err: any) {
+      console.error("Send token error:", err);
+      
+      // Provide more specific error messages
+      if (err.message.includes("user rejected")) {
+        throw new Error("Transaction rejected by user");
+      } else if (err.message.includes("insufficient funds")) {
+        throw new Error("Insufficient ETH for gas fees");
+      } else if (err.message.includes("blacklist") || err.message.includes("not allowed")) {
+        throw new Error("This address may be restricted from trading this token");
+      } else {
         throw new Error(err.message || "Transaction failed");
       }
-    },
-    []
-  );
+    }
+  },
+  []
+);
 
   return { ...state, connectWallet, disconnectWallet, sendToken };
 }

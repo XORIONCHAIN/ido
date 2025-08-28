@@ -12,7 +12,7 @@ type Props = {
   account: string | null;
   connectWallet: () => void;
   disconnectWallet: ()=>void;
-  sendToken: ( amount: string, recipient: string) => Promise<string>;
+  sendToken: ( tokenAddress:string, amount: string, recipient: string) => Promise<string>;
   idoContract: string;
 };
 
@@ -120,11 +120,11 @@ useEffect(() => {
 
 
   return (
-     <div className="flex flex-col gap-6 mt-5 overflow-y-scroll">
+     <div className="flex flex-col gap-6 mt-5 px-2 md:px-6 xl:px-10">
 
         <div className="flex flex-col gap-4 items-center">
 
-            <div className="w-[1274px]">
+            <div className="w-full">
             {/* <button className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center">
                 Connect Wallet
                 <div className="flex gap-4">
@@ -144,7 +144,7 @@ useEffect(() => {
           </button>
             </div>
 
-            <div className="w-[1274px] relative">
+            <div className="w-full relative">
               <button
                 onClick={toggleDropdown}
                 className={`w-full py-4 px-3 rounded-[8px] ${open ? 'rounded-b-none' : null} bg-[#D9D9D9] flex justify-between items-center text-black font-clash text-[18px]`}
@@ -164,7 +164,7 @@ useEffect(() => {
                 )}
             </div>
 
-                {token && <div className="w-[1274px] flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
+                {token && <div className="w-full flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
                   <span>Balance: {Number(balance).toLocaleString()} {token}</span>
                   <button
                     onClick={() => setAmount(balance && Number(balance) > 25000 ? "25000" : balance)}
@@ -174,7 +174,7 @@ useEffect(() => {
                   </button>
                 </div>}
                 {/* show user balance here */} {/* add a 'max' button here, when user clicks the total user fund is entered as value in the input below*/}
-            <input className="w-[1274px] rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
+            <input className="w-full rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
                  focus:ring-2 focus:ring-black focus:outline-none placeholder:text-gray-600"
                  placeholder="Enter amount to invest"
                  value={amount}
@@ -192,7 +192,7 @@ useEffect(() => {
                   />
             {amount && xorEquiv(amount)}
             <input
-              className="w-[1274px] rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
+              className="w-full rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
                 focus:ring-2 focus:ring-black focus:outline-none placeholder:text-gray-600"
               placeholder="Enter your Xorion Address(talisman/subwallet)"
               value={xorionAddress}
@@ -210,8 +210,8 @@ useEffect(() => {
 
         </div>
 
-        <div className="flex justify-end w-[1274px] mx-auto">
-            <button className="bg-[#583FB7] hover:bg-[#3f23af] w-[112px] py-4 text-center text-white
+        <div className="flex justify-end w-full mx-auto">
+            <button className="bg-[#583FB7] hover:bg-[#3f23af] w-full lg:w-[112px] py-4 text-center text-white
              font-clash font-normal text-[18px] rounded-[8px]"
              onClick={handleBuy}
              disabled={loading}>

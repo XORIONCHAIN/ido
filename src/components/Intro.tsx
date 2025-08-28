@@ -47,13 +47,14 @@ const Intro = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex gap-10 px-7 pr-1 mt-5 h-full">
-        <div className='w-fit'> 
-            <h2 className="h-[44px] font-clash font-semibold text-[36px] mt-3
-                    leading-[100%] tracking-[0] text-center text-white mb-4"
+    <div className="w-full flex flex-col xl:flex-row px-7 pr-1 mt-5 h-full">
+        
+        <div className='xl:w-1/4'> 
+            <h2 className="font-clash font-semibold text-[36px] xl:text-[30px] 2xl:text-[36px] mt-3
+                    leading-[100%] tracking-[0] text-left text-white mb-4"
             >Table of Contents</h2>
 
-                <ul className='flex flex-col items-start gap-3 '>
+                <ul className='flex flex-col lg:flex-row xl:flex-col w-full items-start gap-3 mb-5 xl:mb-0'>
                     {
                         Toc.map((val,idx)=>(
                             <li key={idx} 
@@ -65,15 +66,16 @@ const Intro = (props: Props) => {
                 </ul>
         </div>
 
-        <div className='flex-1 overflow-y-scroll w-full h-full flex items-start flex-col px-10
-                overflow-x-hidden scroll-container'
+        <div className='w-full lg:w-3/4 mx-auto overflow-y-scroll scrollbar-w-0 scrollbar-thumb-sky-700 h-full flex items-start flex-col
+                  justify-around'
                 >
-            <div ref={sectionRefs["Introduction to Xorion Chain"]} data-id="Introduction to Xorion Chain">
+            <div 
+            ref={sectionRefs["Introduction to Xorion Chain"]} data-id="Introduction to Xorion Chain">
                 <img src='/intro.png' alt='Intro to Xorion Chain'
-                className='w-[855px] h-[285px] border-1 border-gray-500 border mt-3'/>
+                className=' flex-grow object-cover border-1 border-gray-500 border mt-3'/>
 
                 <div className="opacity-100 text-left w-fit">
-                    <h2 className="w-[908px] h-[44px] opacity-100 font-clash font-bold text-[36px] 
+                    <h2 className=" opacity-100 font-clash font-bold text-[20px] lg:text-[36px] 
                         leading-[100%] tracking-[0] text-white my-5"
                         >INTRODUCING XORION CHAIN</h2>
                     <p>The Xorion Chain emerges at a pivotal moment in the evolution of the web3, where enterprise and developers seek 
@@ -86,9 +88,9 @@ const Intro = (props: Props) => {
                 </div>
             </div>
 
-            <div className="opacity-100 text-left"
+            <div className="opacity-100 text-left w-fit"
             ref={sectionRefs["Roadmap Highlights"]} data-id="Roadmap Highlights">
-                <h2 className="w-[908px] h-[44px] opacity-100 font-clash font-bold text-[36px] 
+                <h2 className=" opacity-100 font-clash font-bold text-[20px] lg:text-[36px] 
                     leading-[100%] tracking-[0] text-white my-5"
                     >ROADMAP HIGHLIGHTS</h2>
                 <p>The Xorion Chain is engineered to deliver a next generation enterprise grade blockchain ecosystem that redefines 
@@ -110,14 +112,14 @@ const Intro = (props: Props) => {
 
             <div className="opacity-100 text-left flex flex-col gap-8 mb-10"
              ref={sectionRefs["Team & Partners"]} data-id="Team & Partners">
-                <h2 className="w-[908px] h-[44px] opacity-100 font-clash font-bold text-[36px] 
+                <h2 className=" opacity-100 font-clash font-bold text-[20px] lg:text-[36px] 
                     leading-[100%] tracking-[0] text-white mt-5"
                     >TEAM & PARTNERS</h2>
 
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\ceo.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Rajat Sharma - CEO</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Rajat Sharma - CEO</h2>
                         <p className="pr-16">Over 10 years experience leading research projects and managing successful teams.
                             Skilled in using agile methods to guide plans, encourage teamwork and deliver new 
                             and effective solutions in different areas.
@@ -127,7 +129,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\abena.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Benjamin Abena -COO</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Benjamin Abena -COO</h2>
                         <p>Extensive Defi business development expertise. Fosters enterprise adoption aligning the
                              quantum and secure platform with market needs.
                         </p>
@@ -136,7 +138,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\clement.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Clement Kalu - Full stack Developer</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Clement Kalu - Full stack Developer</h2>
                         <p>Builds Cli SDKs and a validator dashboard. integrates cross chain (Cosmos IBC, CCIP) and privacy focused dApps.
                         </p>
                     </div>
@@ -144,7 +146,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\Godwin.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Godwin Bassey</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Godwin Bassey</h2>
                         <p>Ui designer responsible for designing user friendly user interfaces bridging web3 products with its consumers through designs.
                         </p>
                     </div>
@@ -152,7 +154,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\kofi.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Kofi Otuo - Blockchain Developer</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Kofi Otuo - Blockchain Developer</h2>
                         <p>Expert in smart contract and cryptography. Integrates post quantum signatures, zk-SNAR and multi VM support (EVM, WASM, Move).
                         </p>
                     </div>
@@ -160,7 +162,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\james.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">James Onyero - Graphics Designer</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">James Onyero - Graphics Designer</h2>
                         <p>Creates visuals for socical media and documentation. Enhances brand accessibility for enterprise and developers.
                         </p>
                     </div>
@@ -168,7 +170,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\daniel.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Daniel Ekpe - Community Growth Manager</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Daniel Ekpe - Community Growth Manager</h2>
                         <p>Drives ecosystem growth via 35% XOR tokens grants(350M). Fosters Defi, NFT, and enterprise dApp innovation.
                         </p>
                     </div>
@@ -176,7 +178,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\anthony.png" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Anthony Shine - Community Manager</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Anthony Shine - Community Manager</h2>
                         <p>Manages DAO driven governance with quadratic Voting. Empwers XOR holders for decentralized protocol upgrades.
                         </p>
                     </div>
@@ -184,7 +186,7 @@ const Intro = (props: Props) => {
                 <div className="flex flex-col md:flex-row gap-5 ">
                     <img src="\elizabeth.jpg" className="w-[108px] h-[108px] flex-shrink-0 rounded-full object-cover" />
                     <div >
-                        <h2 className="font-bold text-[32px] text-[#FFFFFF]">Elizabeth Moore  - Moderator</h2>
+                        <h2 className="font-bold text-[20px] lg:text-[32px] text-[#FFFFFF]">Elizabeth Moore  - Moderator</h2>
                         <p>Manages developer and enterprise client feedback. Supports hackathons and validator engagement for adoption.
                         </p>
                     </div>
@@ -193,7 +195,7 @@ const Intro = (props: Props) => {
 
             <div className="opacity-100 text-left mb-10"
             ref={sectionRefs["Tokenomics"]} data-id="Tokenomics">
-                <h2 className="w-[908px] h-[44px] opacity-100 font-clash font-bold text-[36px] 
+                <h2 className=" opacity-100 font-clash font-bold text-[20px] lg:text-[36px] 
                     leading-[100%] tracking-[0] text-white my-5"
                     >TOKENOMICS</h2>
                 <img src="\tokenomics.png" alt="" />

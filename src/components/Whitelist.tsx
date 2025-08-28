@@ -105,9 +105,9 @@ const Whitelist = ({ isConnected, account, connectWallet, disconnectWallet,sendT
 }
 
   return (
-    <div className="flex flex-col gap-6 mt-5 items-center">
+    <div className="flex flex-col gap-6 mt-5 items-center px-2 md:px-6 xl:px-10">
       
-      <div className="w-[1274px] py-2 px-3 rounded-[8px] bg-[#D9D9D9] text-start flex justify-between items-center">
+      <div className="w-full py-2 px-3 rounded-[8px] bg-[#D9D9D9] text-start flex justify-between items-center">
         <span className="font-clash font-normal text-[18px] text-black">
          {eligibility === null
             ? "Whitelist Check"
@@ -129,7 +129,7 @@ const Whitelist = ({ isConnected, account, connectWallet, disconnectWallet,sendT
       className="w-[1274px] rounded-[8px] font-clash py-4 px-3 h-full bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-start text-black
                  focus:ring-2 focus:ring-black focus:outline-none placeholder:text-black " /> */}
 
-      <div className="w-[1274px]">
+      <div className="w-full">
             <button 
             onClick={isConnected ? disconnectWallet : connectWallet}
             className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center">

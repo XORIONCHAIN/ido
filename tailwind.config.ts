@@ -1,4 +1,23 @@
 import type { Config } from "tailwindcss";
+import { default as plugin } from "tailwindcss/plugin";
+
+
+const scrollbarWidthUtilities = {
+  '.scrollbar-w-0': {
+    'scrollbar-width': 'none',
+    '&::-webkit-scrollbar': {
+      'width': '0px',
+      'display': 'none'
+    }
+  },
+  '.scrollbar-w-1': {
+    'scrollbar-width': 'thin',
+    '&::-webkit-scrollbar': {
+      'width': '1px'
+    }
+  },
+}
+
 
 export default {
 	darkMode: ["class"],
@@ -116,5 +135,13 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), 
+				require('tailwind-scrollbar')({ 
+					nocompatible: true,
+					preferredStrategy: 'pseudoelements'  
+				}),
+				plugin(function({ addUtilities }) {
+				addUtilities(scrollbarWidthUtilities);
+				})
+			],
 } satisfies Config;
