@@ -149,20 +149,22 @@ const IdoPage = (props: Props) => {
                 <div className="w-3/4 h-0 absolute top-[308px] left-1/2 transform -translate-x-1/2 opacity-100 border-t-[2px] border-white/30"></div>
  
 
-                <div className="flex justify-between items-center w-3/4 top-[330px] absolute left-1/2 transform -translate-x-1/2 ">
-                    <div className=" flex flex-col gap-5 leading-[100%] tracking-[0] text-left text-white font-clash font-normal"
+                <div className="flex flex-col md:flex-row gap-3 justify-between items-center w-3/4 top-[320px] absolute left-1/2 transform -translate-x-1/2 ">
+                    <div className=" flex flex-col w-full md:w-fit gap-1 md:gap-5 leading-[100%] tracking-[0] text-left text-white font-clash font-normal"
                     >
-                    <span className="   text-[15px] lg:text-[20px] "
+                    <span className="   text-[15px] md:text-[20px]  "
                     > Number of Participants </span>
-                    <span className=" text-[25px] lg:text-[40px]"
+                    <span className=" text-[15px] md:text-[25px] "
                     > 350 </span>
                     </div>  
-                    <div className="flex flex-col gap-5 font-clash font-normal text-[20px] leading-[100%] tracking-[0] text-right text-white">
-                    <span className="text-[20px] "
+                    <div className="flex  w-full md:w-fit flex-col md:gap-5 font-clash font-normal text-[20px] leading-[100%] tracking-[0] text-left md:text-right text-white">
+                    <span className="text-[15px] md:text-[20px] "
                     > Time left </span>
-                    <span className="text-[40px]"
+                    <span className="text-[15px] md:text-[25px]"
                     > 
-                    <Countdown targetDate="2025-08-27T15:00:00" /> 
+                    <Countdown 
+                    classname="text-[15px] md:text-[25px] "
+                    targetDate="2025-08-31T16:00:00" /> 
                     </span>
                     </div>  
                 </div>
@@ -189,7 +191,7 @@ const IdoPage = (props: Props) => {
             {/* TABS & CONTENTS */}
            <div className='flex relative justify-center mb-48'>
                  <div className="w-[95%] md:w-4/5  opacity-100 relative
-                        rounded-b-[18px]  mx-auto bg-black">
+                        rounded-b-[18px]  mx-auto">
                     {/* TABS  */}
                    <div className="w-full text-[15px] opacity-100 grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-[18px] text-black">
                         <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Sale Info' ? 'bg-[#454545]' : 'bg-[#D9D9D9]'}`}
@@ -245,7 +247,9 @@ const IdoPage = (props: Props) => {
                                 Time till TGE
                             </span>
                             <span className="font-clash font-normal text-[25px] md:text-[128px] leading-[100%] tracking-[0]">
-                               <Countdown targetDate="2025-08-27T15:00:00" />
+                               <Countdown 
+                               classname="text-[20px] md:text-[25px] lg:text-[40px] w-full "
+                               targetDate="2025-08-31T16:00:00" />
                             </span>
                         </div>
 

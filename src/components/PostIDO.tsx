@@ -11,7 +11,7 @@ const PostIDO = (props: Props) => {
 
         <button 
         onClick={toggle}
-        className="bg-gray-900 w-fit text-[20px] border-1 border-gray-800 px-5 py-4 mx-auto rounded-md">Claim</button>
+        className="bg-gray-50 w-fit text-[20px] text-gray-900 border-1 border-gray-800 px-5 py-4 mx-auto rounded-md">Claim</button>
         {show && <p className='mx-auto my-auto text-2xl'>Coming soon</p>}
   
     </div>
