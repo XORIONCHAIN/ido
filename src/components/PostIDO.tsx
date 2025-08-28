@@ -1,11 +1,18 @@
+import { useState } from "react"
 
 type Props = {}
 
 const PostIDO = (props: Props) => {
-  return (
-     <div className="flex w-full h-full flex-col gap-6 mt-3">
+  const [show, setShow] = useState(false)
 
-        <p className='mx-auto my-auto text-2xl'>Coming soon</p>
+  const toggle = () => setShow(!show)
+  return (
+     <div className="flex w-full h-full py-10 flex-col gap-6 mt-3">
+
+        <button 
+        onClick={toggle}
+        className="bg-gray-900 w-fit text-[20px] border-1 border-gray-800 px-5 py-4 mx-auto rounded-md">Claim</button>
+        {show && <p className='mx-auto my-auto text-2xl'>Coming soon</p>}
   
     </div>
 

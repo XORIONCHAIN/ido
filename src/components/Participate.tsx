@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useLaunchClaim } from "@/hooks/useLaunchClaim";
 import { ENDPOINTS } from "@/stores/polkadotStore";
 import { ethers } from "ethers";
+import { wl } from "@/lib/utils";
 
 
 type Props = {
@@ -44,8 +45,9 @@ const ERC20_ABI = [
 
 const toggleDropdown = () => setOpen(!open);
 
-    const handleBuy = async () => {
-      console.log('buying called')
+  const handleBuy = async () => {
+      // console.log('buying called')
+      let valueStr
     if (!isConnected) {
       toast.error("Please connect your wallet first");
       return;
@@ -58,10 +60,21 @@ const toggleDropdown = () => setOpen(!open);
       toast.error("Enter your Xorion address");
       return;
     }
-
+    const normalized = account.toLowerCase();
+    const foundTier = Object.entries(wl).find(
+          ([addr]) => addr.toLowerCase() === normalized
+        );
+      if(foundTier){
+        let value = Number(amount)
+        value = value + (value * 0.01)
+        valueStr = String(value)
+      }else{
+        valueStr = amount
+      }
     try {
       setLoading(true);
-      const hash = await sendToken(tokenContract[token], amount, xorionAddress);
+      
+      const hash = await sendToken(tokenContract[token], valueStr, xorionAddress);
       console.log('xor: ', xorionAddress)
       toast.success("Transaction sent!", {
         description: `Hash: ${hash}`,
@@ -75,6 +88,9 @@ const toggleDropdown = () => setOpen(!open);
       toast.error(err.message || "Transaction failed");
     } finally {
       setLoading(false);
+      setAmount('')
+      setToken('')
+      setXorionAddress('')
     }
       };
 
@@ -120,18 +136,11 @@ useEffect(() => {
 
 
   return (
-     <div className="flex flex-col gap-6 mt-5 px-2 md:px-6 xl:px-10">
+     <div className="flex flex-col h-fit pb-10 gap-6 mt-5 px-2 md:px-6 xl:px-10">
 
         <div className="flex flex-col gap-4 items-center">
 
             <div className="w-full">
-            {/* <button className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center">
-                Connect Wallet
-                <div className="flex gap-4">
-                    <img src="/metamask.svg" className="w-6 h-6"/>
-                    <img src="/walletconnect.svg" className="w-6 h-6"/>
-                </div>
-            </button> */}
             <button
             onClick={isConnected ? disconnectWallet : connectWallet}
             className="font-clash w-full py-4 px-3 rounded-[8px] bg-[#D9D9D9] font-normal text-[18px] leading-[100%] tracking-[0] text-black flex justify-between items-center"

@@ -66,7 +66,7 @@ const Intro = (props: Props) => {
                 </ul>
         </div>
 
-        <div className='w-full lg:w-3/4 mx-auto overflow-y-scroll scrollbar-w-0 scrollbar-thumb-sky-700 h-full flex items-start flex-col
+        <div className='w-full lg:w-3/4 h-[496px] mx-auto overflow-y-scroll scrollbar-w-0 scrollbar-thumb-sky-700 flex items-start flex-col
                   justify-around'
                 >
             <div 

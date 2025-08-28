@@ -211,7 +211,7 @@ const IdoPage = (props: Props) => {
                             onClick={()=>setSelectedTab('Post IDO')}>Post IDO</button>
                         </div>
                     {/* CONTNTS  */}
-                    <div className='pt-7 w-full gap-10  h-[550px] overflow-hidden bg-[#454545] rounded-b-lg'>
+                    <div className='pt-7 w-full gap-10  overflow-hidden bg-[#454545] rounded-b-lg'>
                        {selectedTab === 'Sale Info' && <SaleInfo />}
                        {selectedTab === 'About the Project' && <Intro />}
                        {selectedTab === 'Participate' && <Participate 

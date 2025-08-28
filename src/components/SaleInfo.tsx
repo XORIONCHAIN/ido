@@ -7,7 +7,7 @@ const SaleInfo = (props: Props) => {
       const Toc = ['Introduction to Xorion Chain', 'Roadmap Highlights', 'Tokenomics', 'Team & Partners']
 
   return (
-    <div className="flex flex-col gap-6 mt-5 px-2 md:px-5 xl:px-10">
+    <div className="flex flex-col gap-6 mt-5 px-2 md:px-5 xl:px-10 pb-10">
         
         <div className="flex justify-between items-center">
             <span className="font-clash font-normal leading-[100%] tracking-[0] text-center w-fit">Token Name</span>
