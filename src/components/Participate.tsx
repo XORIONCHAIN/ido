@@ -43,7 +43,7 @@ const Participate = ({ isConnected, account, connectWallet,disconnectWallet,
 const launchClaim = useLaunchClaim(xorionAddress || null, ENDPOINTS[0]);
 const { contribution, isReady, claimTokens, error } = launchClaim;
   
-const XOR_PRICE_PER_DOLLAR = 0.05;
+const XOR_PRICE_PER_DOLLAR = 16.67;
 
 // const tokenContract = {
 //   "USDT":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
