@@ -9,7 +9,7 @@ export default defineConfig(() => ({
   server: {
     host: "0.0.0.0",
     port: 3000,
-    // allowedHosts: ["973344b70301.ngrok-free.app"],
+  //   allowedHosts: ["98830030e3d1.ngrok-free.app"],
   //   hmr: {
   //   clientPort: 443 
   // },

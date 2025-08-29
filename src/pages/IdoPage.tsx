@@ -34,19 +34,14 @@ const IdoPage = (props: Props) => {
       
       <div className="relative w-full h-[982px] overflow-x-clip">
     
-        <div className="flex justify-between absolute items-center w-full mt-10 px-2 xl:px-52">
+        <div className="flex justify-between absolute items-center w-full mt-10 px-2 sm:px-10 xl:px-52">
 
             <img src='/logo.svg'
             alt='Logo'
             className='w-[84px] h-[52px] 
              z-10 object-cover'
             />
-            {/* <button className='w-[176px] h-[54px] top-[58px] right-[80px] absolute
-                rotate-0 rounded-[8px] gap-[8px] py-[10px] px-[18px] opacity-100 z-10
-                bg-[#F9F9F9] text-[#121212] font-clash font-normal text-[20px] leading-[100%] tracking-[0] text-center'>
-            Connect Wallet 
 
-            </button> */}
             <button
             onClick={scrollToContents}
             className=" 
@@ -70,37 +65,33 @@ const IdoPage = (props: Props) => {
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
 
-        <div className="absolute w-full h-[118px] px-2 top-[150px] sm:top-[200px] md:top-[231px] rotate-0 opacity-100">
+        <div className="absolute w-full h-[118px] px-2 top-[150px] sm:top-[200px] md:top-[231px]">
             <p className="font-clash font-bold text-[50px] lg:text-[96px] leading-[100%] tracking-[-0.03em] text-center">
                 Xorion Chain IDO
             </p>
         </div>
-        <div className="absolute w-full px-2 top-[280px] md:top-[357px] opacity-100">
-            <p className="font-inter font-normal text-[32px] text-[#F9F9F9] leading-[100%] tracking-[0%] text-center"> 
+        <div className="absolute w-full px-2 top-[280px] md:top-[357px]">
+            <p className="font-inter font-normal text-[32px] text-[#F9F9F9] leading-[100%] text-center"> 
                 The next-generation scalable chain on Polkadot Substrate
             </p>
         </div>
        <div className='flex justify-center w-full absolute top-[400px] md:top-[429px]'>
-             {/* <button 
-                className="w-[176px] h-[54px] opacity-100 
-                rounded-[24px] gap-[8px] px-[18px] py-[10px] bg-[#F9F9F9]
-                font-clash font-normal text-[20px] leading-[100%] tracking-[0] 
-                text-[#121212] text-center shadow-[inset_0px_3px_6px_0px_#24031C40]">
-            Connect Wallet
-            </button> */}
-            <button
-             onClick={scrollToContents}
-           className="w-[176px] h-[54px] opacity-100 
-                rounded-[24px] gap-[8px] px-[18px] py-[10px] bg-[#F9F9F9]
-                font-clash font-normal text-[20px] leading-[100%] tracking-[0] 
+            <button className="w-fit hover:text-[#7a0e5f] hover:bg-[#e0dddd]
+                rounded-[24px] px-3 py-4 md:px-[25px] md:py-[20px] bg-[#F9F9F9]
+                font-clash font-semibold md:text-[30px]
                 text-[#121212] text-center shadow-[inset_0px_3px_6px_0px_#24031C40]"
             >
-            {isConnected ? account.slice(0, 6) + "..." + account.slice(-4) : "Connect Wallet"}
+               <a 
+               target="_blank"
+               rel="noopener noreferrer"
+               href="https://xorion-chain.gitbook.io/xorion-chain-docs/the-xor-token/ido/how-to-participate"> 
+                How to participate
+               </a>
             </button>
 
        </div>
 
-        <div className='absolute flex  justify-center w-full top-[517px]'>
+        <div className='absolute flex  justify-center w-full top-[540px]'>
 
             <div className="absolute w-4/5 md:2/4 xl:w-2/4 h-[430px] border-[#949494]
                     opacity-100 rounded-[18px] border-[4px] bg-[#24031C] flex flex-col"
@@ -187,7 +178,7 @@ const IdoPage = (props: Props) => {
 
       {/* SECOND HALF  */}
 
-      <div className='relative pt-10 lg:mt-20 w-4/5 xl:w-3/5 mx-auto'>
+      <div className='relative pt-20 md:pt-40 lg:mt-30 w-full sm:w-4/5 xl:w-3/5 mx-auto '>
         {/* Ellipse  */}
             <div className="w-1/3 lg:w-[500px] h-[500px] absolute left-[-139px] opacity-100 bg-[#9A4DFF4D] blur-[125px]"
             >
@@ -197,7 +188,7 @@ const IdoPage = (props: Props) => {
              <div className="w-1/3 lg:w-[500px] h-[500px] absolute right-[-150px] bg-[#9A4DFF]/30 blur-[125px]"></div>
 
             {/* TABS & CONTENTS */}
-           <div className='flex relative justify-center mb-48'>
+           <div className='flex relative justify-center mb-28 px-2 sm:px-0'>
                  <div className="w-full md:w-4/5 xl:w-full opacity-100 relative
                         rounded-b-[18px]  mx-auto">
                     {/* TABS  */}
@@ -208,7 +199,7 @@ const IdoPage = (props: Props) => {
                         <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='About the Project' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('About the Project')}>About the Project</button>
                         
-                        <button className={`h-[60px] px-1 pr-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Participate' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
+                        <button className={`h-[60px] px-1 pr-1 md:pr-0 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Participate' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
                             onClick={()=>setSelectedTab('Participate')}>Participate</button>
                         
                         <button className={`h-[60px] px-1 rounded-tl-[18px] rounded-tr-[18px] hover:bg-[#454545] hover:text-white ${selectedTab==='Whitelist' ? 'bg-[#454545] text-white' : 'bg-[#D9D9D9]'}`}
@@ -249,7 +240,7 @@ const IdoPage = (props: Props) => {
            </div>
 
 
-           <div className="flex justify-center mt-36 mb-36">
+           <div className="flex justify-center mt-28 mb-28">
                 <div
                     className="w-3/4 h-[255px] rounded-[18px] 
                         border-[4px] border-[#949494] bg-[#24031C]"
@@ -272,16 +263,25 @@ const IdoPage = (props: Props) => {
 
         {/* FOOTER  */}
 
-        <div className="w-full mt-28 min-h-[420px] bg-[url('/idofooter.png')] bg-cover bg-center mx-auto">
+        <div className="w-full min-h-[420px] bg-[url('/idofooter.png')] bg-cover bg-center mx-auto">
     <div className="mt-16 w-full max-w-6xl mx-auto px-4">
 
         <div className="flex flex-wrap md:justify-around lg:justify-between text-[20px] leading-[100%] tracking-[0]">
             
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Social</h3>
-                <ol><a href="https://t.me/xorion_chain">Telegram Community</a></ol>
-                <ol><a href="https://discord.gg/c4VVaRVdKq">Discord</a></ol>
-                <ol><a href="https://x.com/XorionChain">Twitter</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="https://t.me/xorion_chain">Telegram Community</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="https://discord.gg/c4VVaRVdKq">Discord</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="https://x.com/XorionChain">Twitter</a></ol>
             </div>
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Token</h3>
@@ -294,10 +294,19 @@ const IdoPage = (props: Props) => {
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Help</h3>
                 <ol>Status</ol>
-                <ol><a href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/terms-and-conditions">Terms of service</a></ol>
-                <ol><a href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/privacy-policy">Privacy</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/terms-and-conditions">Terms of service</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="https://xorion-chain.gitbook.io/xorion-chain-docs/legal/privacy-policy">Privacy</a></ol>
                 <ol>FAQ</ol>
-                <ol><a href="http://xorion-chain.gitbook.io/xorion-chain-docs/the-xorion/whitepaper">Whitepaper</a></ol>
+                <ol><a 
+                target="_blank"
+               rel="noopener noreferrer"
+                href="http://xorion-chain.gitbook.io/xorion-chain-docs/the-xorion/whitepaper">Whitepaper</a></ol>
             </div>
             <div className="w-full md:w-1/2 lg:w-1/4 space-y-3 mb-8">
                 <h3 className="font-clash font-bold text-[40px] leading-[100%] tracking-[0]">Exchanges</h3>

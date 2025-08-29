@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { wl } from "@/lib/utils";
 import SelectCryptoNet from "./SelectCryptoNet";
 import { useTokenPrices,TOKEN_IDS  } from "@/hooks/useTokenPrice";
+import { TOKEN_CONTRACTS } from "@/lib/networks";
 
 
 type Props = {
@@ -297,40 +298,40 @@ const handleBuy = async () => {
 //   fetchBalance();
 // }, [account, token]);
 
- useEffect(() => {
-    const fetchBalance = async () => {
-      if (!window.ethereum || !account || !token) return;
+//  useEffect(() => {
+//     const fetchBalance = async () => {
+//       if (!window.ethereum || !account || !token) return;
 
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
+//       try {
+//         const provider = new ethers.BrowserProvider(window.ethereum);
+//         const signer = await provider.getSigner();
 
-        // Handle native BNB balance
-        if (token === 'BNB') {
-          const balance = await provider.getBalance(account);
-          const formattedBalance = ethers.formatEther(balance);
-          setBalance(formattedBalance);
-          return;
-        }
+//         // Handle native BNB balance
+//         if (token === 'BNB') {
+//           const balance = await provider.getBalance(account);
+//           const formattedBalance = ethers.formatEther(balance);
+//           setBalance(formattedBalance);
+//           return;
+//         }
 
-        // Handle ERC20 tokens
-        const tokenAddress = TOKEN_CONTRACTS[selectedNetwork][token];
-        if (!tokenAddress) return;
+//         // Handle ERC20 tokens
+//         const tokenAddress = TOKEN_CONTRACTS[selectedNetwork][token];
+//         if (!tokenAddress) return;
 
-        const tokenInstance = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
-        const decimals = await tokenInstance.decimals();
-        const rawBalance = await tokenInstance.balanceOf(account);
-        const formattedBalance = ethers.formatUnits(rawBalance, decimals);
+//         const tokenInstance = new ethers.Contract(tokenAddress, ERC20_ABI, signer);
+//         const decimals = await tokenInstance.decimals();
+//         const rawBalance = await tokenInstance.balanceOf(account);
+//         const formattedBalance = ethers.formatUnits(rawBalance, decimals);
 
-        setBalance(formattedBalance);
-      } catch (err) {
-        console.error("Failed to fetch balance:", err);
-        setBalance("0");
-      }
-    };
+//         setBalance(formattedBalance);
+//       } catch (err) {
+//         console.error("Failed to fetch balance:", err);
+//         setBalance("0");
+//       }
+//     };
 
-    fetchBalance();
-  }, [account, token, selectedNetwork]);
+//     fetchBalance();
+//   }, [account, token, selectedNetwork]);
 
   const handleNetworkChange = async (network: 'ETH' | 'BSC') => {
     try {
@@ -431,10 +432,13 @@ const handleBuy = async () => {
             </div>
 
                 {token && <div className="w-full flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
-                  <span>Balance: {Number(balance).toLocaleString()} {token}</span>
+                  {/* <span>Balance: {Number(balance).toLocaleString()} {token}</span> */}
+                  <span>Balance: {Number(tokenBalances[token]).toLocaleString()} {token}</span>
                   <button
                     onClick={() =>{
-                       setAmount(balance && Number(balance) > 25000 ? "25000" : balance)
+                      const currentBalance = tokenBalances[token] || "0"
+                       setAmount(currentBalance && Number(currentBalance) > 25000 ? "25000" : currentBalance)
+                      //  setAmount(balance && Number(balance) > 25000 ? "25000" : balance)
                          refreshBalances();
                     }}
                     className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded text-gray-400 text-xs"
