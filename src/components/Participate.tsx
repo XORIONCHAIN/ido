@@ -4,11 +4,11 @@ import { FaCaretDown } from 'react-icons/fa'
 import { toast } from "sonner";
 import { useLaunchClaim } from "@/hooks/useLaunchClaim";
 import { ENDPOINTS } from "@/stores/polkadotStore";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
 import { wl } from "@/lib/utils";
 import SelectCryptoNet from "./SelectCryptoNet";
 import { useTokenPrices,TOKEN_IDS  } from "@/hooks/useTokenPrice";
-import { TOKEN_CONTRACTS } from "@/lib/networks";
+// import { TOKEN_CONTRACTS } from "@/lib/networks";
 
 
 type Props = {
@@ -18,14 +18,15 @@ type Props = {
   disconnectWallet: ()=>void;
   sendToken: ( tokenAddress:string, amount: string, recipient: string) => Promise<string>;
   idoContract: string;
-  currentNetwork:  'ETH' | 'BSC'
+  currentNetwork:  'ETH' | 'BSC' | 'UNKNOWN'
   switchNetwork: (network: 'ETH' | 'BSC') => void;
   tokenBalances;
   refreshBalances;
+  balancesLoading;
 };
 
 const Participate = ({ isConnected, account, connectWallet,disconnectWallet, 
-  sendToken,  currentNetwork,
+  sendToken,  currentNetwork, balancesLoading,
   switchNetwork,tokenBalances,refreshBalances}: Props) => {
 
     const [open, setOpen] = useState(false);
@@ -431,21 +432,36 @@ const handleBuy = async () => {
                 />)}
             </div>
 
-                {token && <div className="w-full flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
-                  {/* <span>Balance: {Number(balance).toLocaleString()} {token}</span> */}
-                  <span>Balance: {Number(tokenBalances[token]).toLocaleString()} {token}</span>
+          {token && (
+            <div className="w-full flex gap-2 items-center justify-end text-gray-50 text-sm py-1 px-2">
+              {balancesLoading ? (
+                <span className="text-gray-400">Loading balance...</span>
+              ) : (
+                <>
+                  <span>
+                    Balance: {Number(tokenBalances[token] || 0).toLocaleString()} {token}
+                  </span>
                   <button
-                    onClick={() =>{
-                      const currentBalance = tokenBalances[token] || "0"
-                       setAmount(currentBalance && Number(currentBalance) > 25000 ? "25000" : currentBalance)
-                      //  setAmount(balance && Number(balance) > 25000 ? "25000" : balance)
-                         refreshBalances();
+                    onClick={() => {
+                      const currentBalance = tokenBalances[token] || "0";
+                      setAmount(Number(currentBalance) > 25000 ? "25000" : currentBalance);
+                      refreshBalances();
                     }}
-                    className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded text-gray-400 text-xs"
+                    className="bg-gray-300 hover:bg-gray-400 px-2 py-1 rounded text-gray-800 text-xs"
                   >
                     Max
                   </button>
-                </div>}
+                  <button
+                    onClick={refreshBalances}
+                    className="bg-blue-300 hover:bg-blue-400 px-2 py-1 rounded text-blue-800 text-xs"
+                    title="Refresh balances"
+                  >
+                    ↻
+                  </button>
+                </>
+              )}
+            </div>
+          )}
             
    {/* amount to invest           */}
             

@@ -36,7 +36,7 @@ export function useMetaMask() {
   const [currentNetwork, setCurrentNetwork] = useState<'ETH' | 'BSC' | 'UNKNOWN'>('ETH');
 
 // Enhanced fetchTokenBalances with better error handling
-const fetchTokenBalances = useCallback(async (account: string, network: 'ETH' | 'BSC') => {
+const fetchTokenBalances = useCallback(async (account: string, network: 'ETH' | 'BSC' | 'UNKNOWN') => {
   if (!window.ethereum || !account) return {};
   
   try {
@@ -148,21 +148,24 @@ const fetchTokenBalances = useCallback(async (account: string, network: 'ETH' | 
 
 // Create a state to store balances
 const [tokenBalances, setTokenBalances] = useState<{ [token: string]: string }>({});
+const [balancesLoading, setBalancesLoading] = useState(false);
 
 // Create a function to refresh balances
 const refreshBalances = useCallback(async () => {
   if (!state.account || !currentNetwork) return;
   
   try {
+    setBalancesLoading(true);
     const balances = await fetchTokenBalances(state.account, currentNetwork);
     setTokenBalances(balances);
     return balances;
   } catch (error) {
     console.error('Failed to refresh balances:', error);
     return {};
+  } finally {
+    setBalancesLoading(false);
   }
 }, [state.account, currentNetwork, fetchTokenBalances]);
-
 
   // 🔌 connect wallet
   const connectWallet = async (preferredNetwork?: 'ETH' | 'BSC') => {
@@ -644,11 +647,9 @@ const switchNetwork = async (network: 'ETH' | 'BSC') => {
 //  initial balance load
 useEffect(() => {
   if (state.account && currentNetwork && state.isConnected) {
-    // Fetch balances when component mounts or reconnects
     refreshBalances();
     
-    // Also set up periodic refresh (optional)
-    const balanceInterval = setInterval(refreshBalances, 30000); // Every 30 seconds
+    const balanceInterval = setInterval(refreshBalances, 30000); 
     
     return () => clearInterval(balanceInterval);
   }
@@ -658,7 +659,8 @@ useEffect(() => {
   return { ...state, 
     connectWallet, disconnectWallet, sendToken,
    currentNetwork,
-  switchNetwork ,tokenBalances,        // Expose balances to components
-  refreshBalances,      // Expose refresh function
-  fetchTokenBalances  };
+  switchNetwork ,tokenBalances,        
+  refreshBalances,      
+  fetchTokenBalances,
+balancesLoading  };
 }

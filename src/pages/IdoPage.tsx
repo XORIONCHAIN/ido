@@ -18,8 +18,9 @@ const IdoPage = (props: Props) => {
 
     console.log('end: ', ENDPOINTS)
     const [selectedTab, setSelectedTab] = useState('Participate');
-    const {account, isConnected, error,disconnectWallet, connectWallet, sendToken, currentNetwork,
-  switchNetwork } = useMetaMask();
+    const {account, isConnected, error,disconnectWallet, connectWallet, 
+        sendToken, currentNetwork, balancesLoading, tokenBalances,
+  refreshBalances,switchNetwork } = useMetaMask();
 
   const contentsRef = useRef<HTMLDivElement | null>(null)
   const scrollToContents = () => {
@@ -222,9 +223,13 @@ const IdoPage = (props: Props) => {
                                                             account={account}
                                                             connectWallet={connectWallet}
                                                             sendToken={sendToken}
+                                                            disconnectWallet={disconnectWallet}
                                                             idoContract={IDO_CONTRACT}
                                                             currentNetwork = {currentNetwork}
-                                                            switchNetwork ={switchNetwork} />}
+                                                            switchNetwork ={switchNetwork}
+                                                            tokenBalances={tokenBalances}
+                                                            refreshBalances={refreshBalances}
+                                                            balancesLoading={balancesLoading} />}
                        {selectedTab === 'Whitelist' && <Whitelist 
                                                         isConnected={isConnected}
                                                             account={account}
